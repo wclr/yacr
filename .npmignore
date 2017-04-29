@@ -1,3 +1,6 @@
-/src
+*.ts
+!*.d.ts
+tsconfig.json
 /test
-/tsconfig.json
+*.lock
+.*

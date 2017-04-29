@@ -9,14 +9,11 @@
     "noImplicitAny": true,
     "noImplicitThis": true, 
     "noImplicitReturns": true,
-    "outDir": "./out",
     "noFallthroughCasesInSwitch": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowJs": false,
-    "types": [
-      "node"
-    ]
+    "newLine": "LF"
   },
   "formatCodeOptions": {
     "indentSize": 2,

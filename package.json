@@ -1,12 +1,12 @@
 {
   "name": "yacr",
-  "version": "1.0.0-pre.0",
+  "version": "1.0.0-pre.1",
   "description": "Clean up yarn cache like a boss.",
   "repository": {
     "url": "https://github.com/whitecolor/yacr"
   },
   "bin": {
-    "yacr": "out/yacr.js"
+    "yacr": "yacr.js"
   },
   "scripts": {
     "build:watch": "tsc -w",
