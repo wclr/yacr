@@ -16,6 +16,14 @@ export const getCacheFolder = () =>
       : resolve(stdout.trim()))
   )
 
+const readJSONFile = <T>(path: string) =>
+  new Promise<T>((resolve, reject) => {
+    fs.readFile(path, 'utf-8', (err, data) => err
+      ? reject(err)
+      : resolve(JSON.parse(data) as T)
+    )
+  })
+
 const readDir = (path: string) =>
   new Promise<string[]>((resolve, reject) => {
     fs.readdir(path, (err, list) => err
@@ -40,6 +48,10 @@ const parsePackageName = (packageName: string) => {
 export interface Options {
   silent?: boolean
   cacheFolder?: string
+}
+type PackageManifest = {
+  name: string
+  version: string
 }
 
 export const removeFromCache = (packages: string[], options: Options = {}) => {
@@ -70,8 +82,13 @@ export const removeFromCache = (packages: string[], options: Options = {}) => {
         const nameWithoutRepo = nameParts.join('-')
         if (nameWithoutRepo.indexOf(pkg.name!) === 0) {
           const dirPath = path.join(cacheDir, scopeDir, dirName)
-          const cachePkg = JSON.parse(fs.readFileSync(path.join(dirPath, 'package.json'), 'utf-8'))
-
+          let cachePkg: PackageManifest
+          try {
+            cachePkg = await readJSONFile<PackageManifest>
+              (path.join(dirPath, 'package.json'))
+          } catch (e) {
+            cachePkg = { name: '', version: '' }
+          }
           const versionMatch = !pkg.version || (pkg.version === cachePkg.version)
           const fullName = (pkg.scope ? pkg.scope + '/' + pkg.name : pkg.name)
           let nameMatch = fullName === cachePkg.name
