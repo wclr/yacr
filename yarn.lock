@@ -288,9 +288,9 @@ strip-bom@^2.0.0:
   dependencies:
     is-utf8 "^0.2.0"
 
-typescript@next:
-  version "2.2.0-dev.20161118"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.2.0-dev.20161118.tgz#017e95055790c2cc79fd5f96b28c8a9372d80b4f"
+typescript@^2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.4.tgz#3d38321828231e434f287514959c37a82b629f42"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.1"

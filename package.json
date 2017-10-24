@@ -1,6 +1,6 @@
 {
   "name": "yacr",
-  "version": "1.0.0-pre.3",
+  "version": "1.0.0-pre.6",
   "description": "Clean up yarn cache like a boss.",
   "repository": {
     "url": "https://github.com/whitecolor/yacr"
@@ -10,7 +10,8 @@
   },
   "scripts": {
     "watch": "tsc -w",
-    "build": "tsc"
+    "build": "tsc",
+    "prepublish": "tsc"
   },
   "license": "MIT",
   "dependencies": {
@@ -21,6 +22,6 @@
     "@types/node": "^6.0.48",
     "@types/rimraf": "^0.0.28",
     "@types/yargs": "^6.3.2",
-    "typescript": "next"
+    "typescript": "^2.3.4"
   }
 }

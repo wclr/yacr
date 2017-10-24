@@ -9,19 +9,26 @@ const promisify = <P, R>(fn: (param: P, callback?: (err: any, res: R, ...rest: a
   })
 const execCmd = promisify(exec)
 
-export const getCacheFolder = () =>
+export const getCacheDir = ({ cacheFolder }: { cacheFolder?: string } = {}) =>
   new Promise<string>((resolve, reject) =>
-    exec('yarn cache dir', (err, stdout) => err
+    exec('yarn cache dir' + (cacheFolder ? ` --cache-folder ${cacheFolder}` : ''), (err, stdout) => err
       ? reject(err)
       : resolve(stdout.trim()))
   )
 
 const readJSONFile = <T>(path: string) =>
   new Promise<T>((resolve, reject) => {
-    fs.readFile(path, 'utf-8', (err, data) => err
-      ? reject(err)
-      : resolve(JSON.parse(data) as T)
-    )
+    fs.readFile(path, 'utf-8', (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        try {
+          resolve(JSON.parse(data) as T)
+        } catch (e) {
+          reject(e)
+        }
+      }
+    })
   })
 
 const readDir = (path: string) =>
@@ -47,8 +54,16 @@ const parsePackageName = (packageName: string) => {
 
 export interface Options {
   silent?: boolean
-  cacheFolder?: string
+  /**
+   * yarn --cache-folder value
+   */
+  cacheFolder?: string,  
+  /**
+   * Particular location of cached modules
+   */
+  cacheDir?: string
 }
+
 type PackageManifest = {
   name: string
   version: string
@@ -56,9 +71,9 @@ type PackageManifest = {
 
 export const removeFromCache = (packages: string[], options: Options = {}) => {
   return new Promise(async (resolve, reject) => {
-    let cacheDir = options.cacheFolder
-      ? path.resolve(process.cwd(), options.cacheFolder)
-      : await getCacheFolder()
+    let cacheDir = options.cacheDir
+      ? path.resolve(process.cwd(), options.cacheDir)
+      : await getCacheDir({ cacheFolder: options.cacheFolder })
     if (!cacheDir) {
       !options.silent &&
         console.log('Could not get yarn cache directory location.')

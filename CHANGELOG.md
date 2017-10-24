@@ -1,6 +1,7 @@
 # Yacr changelog
 
-# 1.0.0-pre.4
+# 1.0.0-pre.6
+- rename `getCacheFolder` to `getCacheDir`
 
 # 1.0.0-pre.3 (2017-05-07)
 - Fixed `package.json` absense case in cache
